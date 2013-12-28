@@ -17,7 +17,7 @@
       <bpmn2:timerEventDefinition id="_TimerEventDefinition_2"/>
     </bpmn2:startEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_1" name="" sourceRef="StartEvent_2" targetRef="UserTask_1"/>
-    <bpmn2:userTask id="UserTask_1" name="Tim wecken">
+    <bpmn2:userTask id="UserTask_1" name="Timi wecken">
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
     </bpmn2:userTask>
   </bpmn2:process>
