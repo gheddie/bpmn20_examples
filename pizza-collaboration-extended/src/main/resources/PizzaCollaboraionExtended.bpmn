@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://activiti.org/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://xml.semture.de/bpmn20" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="P_p74" exporter="Cubetto Mind" exporterVersion="3.3.5" name="" targetNamespace="http://xml.semture.de/bpmn20">
+  <collaboration id="COLLABORATION-P_p74">
+    <participant id="PO_p3560" name="Pizza-Verkauf" processRef="extendedPizzaManufacturerProcess">
+      <participantMultiplicity/>
+    </participant>
+    <participant id="PO_p3563" name="Besteller" processRef="extendedPizzaOrdererProcess">
+      <participantMultiplicity/>
+    </participant>
+    <messageFlow id="PO_p3597" name="pizzaDelivered" sourceRef="PO_p3591" targetRef="PO_p3575"/>
+    <messageFlow id="PO_p3598" name="pizzaDelivered" sourceRef="PO_p3591" targetRef="PO_p3579"/>
+    <messageFlow id="PO_p3596" name="pizzaOrdered" sourceRef="PO_p3569" targetRef="PO_p3587"/>
+  </collaboration>
+  <process id="extendedPizzaManufacturerProcess" name="Extended pizza manufacturer process" isExecutable="true">
+    <laneSet id="LANESET-PO_p3560">
+      <lane id="PO_p3562" name="Lieferjunge">
+        <flowNodeRef>PO_p3591</flowNodeRef>
+        <flowNodeRef>PO_p3593</flowNodeRef>
+        <flowNodeRef>PO_p3595</flowNodeRef>
+      </lane>
+      <lane id="PO_p3561" name="Bäcker">
+        <flowNodeRef>PO_p3587</flowNodeRef>
+        <flowNodeRef>PO_p3589</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="PO_p3587" name="Bestellung erhalten">
+      <outgoing>PO_p3588</outgoing>
+      <messageEventDefinition id="PO_p3587_MESS" messageRef="pizzaOrdered_id"/>
+    </startEvent>
+    <endEvent id="PO_p3595" name="Ende">
+      <incoming>PO_p3594</incoming>
+    </endEvent>
+    <userTask id="PO_p3589" camunda:candidateGroups="manufacturer" name="Pizza backen">
+      <incoming>PO_p3588</incoming>
+      <outgoing>PO_p3590</outgoing>
+    </userTask>
+    <serviceTask id="PO_p3591" camunda:candidateGroups="distributor" camunda:class="de.gravitex.bpmn.delegate.DeliverPizzaDelegate" name="Pizza liefern">
+      <incoming>PO_p3590</incoming>
+      <outgoing>PO_p3592</outgoing>
+    </serviceTask>
+    <userTask id="PO_p3593" camunda:candidateGroups="distributor" name="Geld kassieren">
+      <incoming>PO_p3592</incoming>
+      <outgoing>PO_p3594</outgoing>
+    </userTask>
+    <sequenceFlow id="PO_p3588" sourceRef="PO_p3587" targetRef="PO_p3589"/>
+    <sequenceFlow id="PO_p3594" sourceRef="PO_p3593" targetRef="PO_p3595"/>
+    <sequenceFlow id="PO_p3592" sourceRef="PO_p3591" targetRef="PO_p3593"/>
+    <sequenceFlow id="PO_p3590" sourceRef="PO_p3589" targetRef="PO_p3591"/>
+  </process>
+  <process id="extendedPizzaOrdererProcess" name="Extended pizza orderer process" isExecutable="true">
+    <laneSet id="LANESET-PO_p3563">
+      <lane id="PO_p3564" name="Kunde">
+        <flowNodeRef>PO_p3579</flowNodeRef>
+        <flowNodeRef>PO_p3586</flowNodeRef>
+        <flowNodeRef>PO_p3577</flowNodeRef>
+        <flowNodeRef>PO_p3581</flowNodeRef>
+        <flowNodeRef>PO_p3573</flowNodeRef>
+        <flowNodeRef>PO_p3565</flowNodeRef>
+        <flowNodeRef>PO_p3571</flowNodeRef>
+        <flowNodeRef>PO_p3575</flowNodeRef>
+        <flowNodeRef>PO_p3567</flowNodeRef>
+        <flowNodeRef>PO_p3584</flowNodeRef>
+        <flowNodeRef>PO_p3569</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="PO_p3565" name="Hunger fstgestellt">
+      <outgoing>PO_p3566</outgoing>
+    </startEvent>
+    <intermediateCatchEvent id="PO_p3575">
+      <incoming>PO_p3574</incoming>
+      <outgoing>PO_p3582</outgoing>
+      <messageEventDefinition id="PO_p3575_MESS" messageRef="pizzaDelivered_id"/>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="PO_p3579">
+      <incoming>PO_p3578</incoming>
+      <outgoing>PO_p3580</outgoing>
+      <messageEventDefinition id="PO_p3579_MESS" messageRef="pizzaDelivered_id"/>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="PO_p3573">
+      <incoming>PO_p3572</incoming>
+      <outgoing>PO_p3576</outgoing>
+      <timerEventDefinition id="PO_p3573_TIM">
+        <timeDuration xsi:type="tFormalExpression">P0DT0H5M0S</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <endEvent id="PO_p3586" name="Hunger gestillt">
+      <incoming>PO_p3585</incoming>
+    </endEvent>
+    <serviceTask id="PO_p3569" camunda:class="de.gravitex.bpmn.delegate.OrderPizzaDelegate" name="Pizza bestellen">
+      <incoming>PO_p3568</incoming>
+      <outgoing>PO_p3570</outgoing>
+    </serviceTask>
+    <userTask id="PO_p3567" camunda:candidateGroups="customer" name="Pizza ausuchen">
+      <incoming>PO_p3566</incoming>
+      <outgoing>PO_p3568</outgoing>
+    </userTask>
+    <userTask id="PO_p3584" camunda:candidateGroups="customer" name="Pizza verzehren">
+      <incoming>PO_p3583</incoming>
+      <outgoing>PO_p3585</outgoing>
+    </userTask>
+    <userTask id="PO_p3577" camunda:candidateGroups="customer" name="Beim Pizzadienst nachfragen">
+      <incoming>PO_p3576</incoming>
+      <outgoing>PO_p3578</outgoing>
+    </userTask>
+    <userTask id="PO_p3581" camunda:candidateGroups="customer" name="Pizza bezahlen">
+      <incoming>PO_p3580</incoming>
+      <incoming>PO_p3582</incoming>
+      <outgoing>PO_p3583</outgoing>
+    </userTask>
+    <eventBasedGateway id="PO_p3571">
+      <incoming>PO_p3570</incoming>
+      <outgoing>PO_p3572</outgoing>
+      <outgoing>PO_p3574</outgoing>
+    </eventBasedGateway>
+    <sequenceFlow id="PO_p3566" sourceRef="PO_p3565" targetRef="PO_p3567"/>
+    <sequenceFlow id="PO_p3583" sourceRef="PO_p3581" targetRef="PO_p3584"/>
+    <sequenceFlow id="PO_p3572" sourceRef="PO_p3571" targetRef="PO_p3573"/>
+    <sequenceFlow id="PO_p3585" sourceRef="PO_p3584" targetRef="PO_p3586"/>
+    <sequenceFlow id="PO_p3574" sourceRef="PO_p3571" targetRef="PO_p3575"/>
+    <sequenceFlow id="PO_p3576" sourceRef="PO_p3573" targetRef="PO_p3577"/>
+    <sequenceFlow id="PO_p3568" sourceRef="PO_p3567" targetRef="PO_p3569"/>
+    <sequenceFlow id="PO_p3580" sourceRef="PO_p3579" targetRef="PO_p3581"/>
+    <sequenceFlow id="PO_p3582" sourceRef="PO_p3575" targetRef="PO_p3581"/>
+    <sequenceFlow id="PO_p3570" sourceRef="PO_p3569" targetRef="PO_p3571"/>
+    <sequenceFlow id="PO_p3578" sourceRef="PO_p3577" targetRef="PO_p3579"/>
+  </process>
+  <message id="pizzaOrdered_id" name="pizzaOrdered"/>
+  <message id="pizzaDelivered_id" name="pizzaDelivered"/>
+  <bpmndi:BPMNDiagram id="KollaborationP_p74" name="Kollaboration">
+    <bpmndi:BPMNPlane id="PLANE-P_p74" bpmnElement="COLLABORATION-P_p74">
+      <bpmndi:BPMNShape id="PoolPO_p3560" bpmnElement="PO_p3560" isExpanded="true" isHorizontal="true">
+        <dc:Bounds height="217.0" width="1363.0" x="1.0" y="1.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="PoolPO_p3563" bpmnElement="PO_p3563" isExpanded="true" isHorizontal="true">
+        <dc:Bounds height="140.0" width="1363.0" x="1.0" y="248.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SchwimmbahnPO_p3564" bpmnElement="PO_p3564" isExpanded="true" isHorizontal="true">
+        <dc:Bounds height="138.0" width="1331.0" x="32.0" y="249.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SchwimmbahnPO_p3561" bpmnElement="PO_p3561" isExpanded="true" isHorizontal="true">
+        <dc:Bounds height="106.0" width="1331.0" x="32.0" y="111.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SchwimmbahnPO_p3562" bpmnElement="PO_p3562" isExpanded="true" isHorizontal="true">
+        <dc:Bounds height="107.0" width="1331.0" x="32.0" y="2.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3572" bpmnElement="PO_p3572">
+        <di:waypoint xsi:type="dc:Point" x="545.0" y="343.0"/>
+        <di:waypoint xsi:type="dc:Point" x="670.0" y="343.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3590" bpmnElement="PO_p3590">
+        <di:waypoint xsi:type="dc:Point" x="575.0" y="173.0"/>
+        <di:waypoint xsi:type="dc:Point" x="595.0" y="173.0"/>
+        <di:waypoint xsi:type="dc:Point" x="595.0" y="50.0"/>
+        <di:waypoint xsi:type="dc:Point" x="635.0" y="50.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3576" bpmnElement="PO_p3576">
+        <di:waypoint xsi:type="dc:Point" x="700.0" y="343.0"/>
+        <di:waypoint xsi:type="dc:Point" x="775.0" y="343.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3585" bpmnElement="PO_p3585">
+        <di:waypoint xsi:type="dc:Point" x="1241.0" y="343.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1300.0" y="343.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3594" bpmnElement="PO_p3594">
+        <di:waypoint xsi:type="dc:Point" x="875.0" y="50.0"/>
+        <di:waypoint xsi:type="dc:Point" x="921.0" y="50.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3580" bpmnElement="PO_p3580">
+        <di:waypoint xsi:type="dc:Point" x="951.0" y="343.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1001.0" y="343.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3566" bpmnElement="PO_p3566">
+        <di:waypoint xsi:type="dc:Point" x="130.5" y="343.0"/>
+        <di:waypoint xsi:type="dc:Point" x="195.0" y="343.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3570" bpmnElement="PO_p3570">
+        <di:waypoint xsi:type="dc:Point" x="435.0" y="343.0"/>
+        <di:waypoint xsi:type="dc:Point" x="505.0" y="343.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3588" bpmnElement="PO_p3588">
+        <di:waypoint xsi:type="dc:Point" x="400.0" y="173.0"/>
+        <di:waypoint xsi:type="dc:Point" x="475.0" y="173.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3574" bpmnElement="PO_p3574">
+        <di:waypoint xsi:type="dc:Point" x="525.0" y="323.0"/>
+        <di:waypoint xsi:type="dc:Point" x="525.0" y="283.0"/>
+        <di:waypoint xsi:type="dc:Point" x="670.0" y="283.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3583" bpmnElement="PO_p3583">
+        <di:waypoint xsi:type="dc:Point" x="1101.0" y="343.0"/>
+        <di:waypoint xsi:type="dc:Point" x="1141.0" y="343.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3592" bpmnElement="PO_p3592">
+        <di:waypoint xsi:type="dc:Point" x="735.0" y="50.0"/>
+        <di:waypoint xsi:type="dc:Point" x="775.0" y="50.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3578" bpmnElement="PO_p3578">
+        <di:waypoint xsi:type="dc:Point" x="875.0" y="343.0"/>
+        <di:waypoint xsi:type="dc:Point" x="921.0" y="343.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3582" bpmnElement="PO_p3582">
+        <di:waypoint xsi:type="dc:Point" x="700.0" y="283.0"/>
+        <di:waypoint xsi:type="dc:Point" x="961.0" y="283.0"/>
+        <di:waypoint xsi:type="dc:Point" x="961.0" y="326.33"/>
+        <di:waypoint xsi:type="dc:Point" x="1001.0" y="326.33"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenzflussPO_p3568" bpmnElement="PO_p3568">
+        <di:waypoint xsi:type="dc:Point" x="295.0" y="343.0"/>
+        <di:waypoint xsi:type="dc:Point" x="335.0" y="343.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="AktivitätPO_p3584" bpmnElement="PO_p3584">
+        <dc:Bounds height="50.0" width="100.0" x="1141.0" y="318.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="GatewayPO_p3571" bpmnElement="PO_p3571">
+        <dc:Bounds height="40.0" width="40.0" x="505.0" y="323.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AktivitätPO_p3569" bpmnElement="PO_p3569">
+        <dc:Bounds height="50.0" width="100.0" x="335.0" y="318.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AktivitätPO_p3581" bpmnElement="PO_p3581">
+        <dc:Bounds height="50.0" width="100.0" x="1001.0" y="318.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AktivitätPO_p3567" bpmnElement="PO_p3567">
+        <dc:Bounds height="50.0" width="100.0" x="195.0" y="318.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AktivitätPO_p3593" bpmnElement="PO_p3593">
+        <dc:Bounds height="50.0" width="100.0" x="775.0" y="25.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AktivitätPO_p3591" bpmnElement="PO_p3591">
+        <dc:Bounds height="50.0" width="100.0" x="635.0" y="25.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AktivitätPO_p3577" bpmnElement="PO_p3577">
+        <dc:Bounds height="50.0" width="100.0" x="775.0" y="318.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AktivitätPO_p3589" bpmnElement="PO_p3589">
+        <dc:Bounds height="50.0" width="100.0" x="475.0" y="148.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EreignisPO_p3573" bpmnElement="PO_p3573">
+        <dc:Bounds height="30.0" width="30.0" x="670.0" y="328.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EreignisPO_p3586" bpmnElement="PO_p3586">
+        <dc:Bounds height="30.0" width="30.0" x="1300.0" y="328.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EreignisPO_p3595" bpmnElement="PO_p3595">
+        <dc:Bounds height="30.0" width="30.0" x="921.0" y="35.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EreignisPO_p3579" bpmnElement="PO_p3579">
+        <dc:Bounds height="30.0" width="30.0" x="921.0" y="328.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EreignisPO_p3565" bpmnElement="PO_p3565">
+        <dc:Bounds height="30.0" width="30.0" x="100.5" y="328.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EreignisPO_p3575" bpmnElement="PO_p3575">
+        <dc:Bounds height="30.0" width="30.0" x="670.0" y="268.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EreignisPO_p3587" bpmnElement="PO_p3587">
+        <dc:Bounds height="30.0" width="30.0" x="370.0" y="158.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="NachrichtenflussPO_p3596" bpmnElement="PO_p3596">
+        <di:waypoint xsi:type="dc:Point" x="385.0" y="318.0"/>
+        <di:waypoint xsi:type="dc:Point" x="385.0" y="188.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="NachrichtenflussPO_p3597" bpmnElement="PO_p3597">
+        <di:waypoint xsi:type="dc:Point" x="660.0" y="75.0"/>
+        <di:waypoint xsi:type="dc:Point" x="660.0" y="120.0"/>
+        <di:waypoint xsi:type="dc:Point" x="685.0" y="120.0"/>
+        <di:waypoint xsi:type="dc:Point" x="685.0" y="268.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="NachrichtenflussPO_p3598" bpmnElement="PO_p3598">
+        <di:waypoint xsi:type="dc:Point" x="710.0" y="75.0"/>
+        <di:waypoint xsi:type="dc:Point" x="710.0" y="95.0"/>
+        <di:waypoint xsi:type="dc:Point" x="835.0" y="95.0"/>
+        <di:waypoint xsi:type="dc:Point" x="835.0" y="303.0"/>
+        <di:waypoint xsi:type="dc:Point" x="936.0" y="303.0"/>
+        <di:waypoint xsi:type="dc:Point" x="936.0" y="328.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
