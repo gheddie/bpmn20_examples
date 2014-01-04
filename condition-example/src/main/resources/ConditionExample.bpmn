@@ -14,6 +14,12 @@
       <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
     </bpmn2:endEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_2" name="" sourceRef="UserTask_1" targetRef="EndEvent_1"/>
+    <bpmn2:textAnnotation id="TextAnnotation_1">
+      <bpmn2:text>Hamburg/Berlin - Erst kam der überraschende Abgang, dann das Rätselraten: Was würde der enge Merkel-Vertraute Ronald Pofalla nach dem Ende seiner politischen Karriere machen? Nun scheint klar zu sein, dass der 54-Jährige zur Deutschen Bahn wechselt. Bereits im März könnte er zum Vorstandsmitglied ernannt werden - und dort die Strippen zur Politik in Berlin und Brüssel ziehen. Bestens vernetzt ist der ehemalige Chef des Kanzleramts ja.</bpmn2:text>
+    </bpmn2:textAnnotation>
+    <bpmn2:association id="Association_1" sourceRef="TextAnnotation_1" targetRef="UserTask_1"/>
+    <bpmn2:association id="Association_2" sourceRef="TextAnnotation_1" targetRef="EndEvent_1"/>
+    <bpmn2:association id="Association_3" sourceRef="TextAnnotation_1" targetRef="StartEvent_1"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="conditionExampleProcess">
@@ -33,6 +39,22 @@
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="_BPMNShape_UserTask_8" targetElement="_BPMNShape_EndEvent_4">
         <di:waypoint xsi:type="dc:Point" x="381.0" y="247.0"/>
         <di:waypoint xsi:type="dc:Point" x="431.0" y="247.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_TextAnnotation_2" bpmnElement="TextAnnotation_1">
+        <dc:Bounds height="115.0" width="282.0" x="391.0" y="330.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_1" bpmnElement="Association_1" sourceElement="_BPMNShape_TextAnnotation_2" targetElement="_BPMNShape_UserTask_8">
+        <di:waypoint xsi:type="dc:Point" x="450.0" y="330.0"/>
+        <di:waypoint xsi:type="dc:Point" x="381.0" y="282.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_2" bpmnElement="Association_2" sourceElement="_BPMNShape_TextAnnotation_2" targetElement="_BPMNShape_EndEvent_4">
+        <di:waypoint xsi:type="dc:Point" x="498.0" y="330.0"/>
+        <di:waypoint xsi:type="dc:Point" x="460.0" y="265.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_Association_3" bpmnElement="Association_3" sourceElement="_BPMNShape_TextAnnotation_2" targetElement="_BPMNShape_StartEvent_4">
+        <di:waypoint xsi:type="dc:Point" x="391.0" y="374.0"/>
+        <di:waypoint xsi:type="dc:Point" x="267.0" y="363.0"/>
+        <di:waypoint xsi:type="dc:Point" x="221.0" y="265.0"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
