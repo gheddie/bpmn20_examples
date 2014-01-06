@@ -80,7 +80,7 @@
       <incoming>PO_p3572</incoming>
       <outgoing>PO_p3576</outgoing>
       <timerEventDefinition id="PO_p3573_TIM">
-        <timeDuration xsi:type="tFormalExpression">P0DT0H5M0S</timeDuration>
+        <timeDuration xsi:type="tFormalExpression">P0DT0H1M0S</timeDuration>
       </timerEventDefinition>
     </intermediateCatchEvent>
     <endEvent id="PO_p3586" name="Hunger gestillt">
