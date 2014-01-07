@@ -44,31 +44,33 @@
     <endEvent id="PO_p4005" name="Change nicht erfolgreich">
       <incoming>PO_p4004</incoming>
     </endEvent>
-    <task id="PO_p3998" name="Kunden über Erfolg benachrichtigen">
+    <userTask id="PO_p3998" camunda:candidateGroups="customerService" name="Kunden über Erfolg benachrichtigen">
       <incoming>SequenceFlow_3</incoming>
       <outgoing>PO_p3999</outgoing>
-    </task>
-    <task id="PO_p3990" name="Kunden über Fehlschlag benachrichtigen">
+    </userTask>
+    <userTask id="PO_p3990" camunda:candidateGroups="customerService" name="Kunden über Fehlschlag benachrichtigen">
       <incoming>SequenceFlow_4</incoming>
       <outgoing>PO_p4004</outgoing>
-    </task>
-    <task id="PO_p4006" name="Abbruch bestätigen">
+    </userTask>
+    <userTask id="PO_p4006" camunda:candidateGroups="customerService" name="Abbruch bestätigen">
       <incoming>SequenceFlow_1</incoming>
       <outgoing>PO_p4011</outgoing>
-    </task>
-    <task id="PO_p3957" name="Change anlegen">
+    </userTask>
+    <userTask id="PO_p3957" camunda:candidateGroups="customerService" name="Change anlegen">
       <incoming>PO_p3956</incoming>
-    </task>
+      <outgoing>SequenceFlow_13</outgoing>
+    </userTask>
     <sequenceFlow id="PO_p4004" sourceRef="PO_p3990" targetRef="PO_p4005"/>
     <sequenceFlow id="PO_p3956" sourceRef="PO_p3941" targetRef="PO_p3957"/>
     <sequenceFlow id="PO_p3999" sourceRef="PO_p3998" targetRef="PO_p3989"/>
     <sequenceFlow id="PO_p4011" sourceRef="PO_p4006" targetRef="PO_p4012"/>
     <subProcess id="SubProcess_1">
+      <incoming>SequenceFlow_13</incoming>
       <outgoing>SequenceFlow_3</outgoing>
       <startEvent id="StartEvent_1">
         <outgoing>SequenceFlow_5</outgoing>
       </startEvent>
-      <userTask id="UserTask_1" name="Machbarkeit beurteilen">
+      <userTask id="UserTask_1" camunda:candidateGroups="technician" name="Machbarkeit beurteilen">
         <extensionElements>
           <camunda:formData>
             <camunda:formField id="changeFeasible" type="boolean"/>
@@ -97,7 +99,7 @@
         </timerEventDefinition>
       </intermediateCatchEvent>
       <sequenceFlow id="SequenceFlow_8" name="" sourceRef="ServiceTask_1" targetRef="IntermediateCatchEvent_1"/>
-      <userTask id="UserTask_2" name="Change ausführen">
+      <userTask id="UserTask_2" camunda:candidateGroups="technician" name="Change ausführen">
         <incoming>SequenceFlow_9</incoming>
         <outgoing>SequenceFlow_10</outgoing>
       </userTask>
@@ -125,6 +127,7 @@
       <errorEventDefinition id="_ErrorEventDefinition_8" errorRef="Error_1"/>
     </boundaryEvent>
     <sequenceFlow id="SequenceFlow_4" name="" sourceRef="BoundaryEvent_3" targetRef="PO_p3990"/>
+    <sequenceFlow id="SequenceFlow_13" name="" sourceRef="PO_p3957" targetRef="SubProcess_1"/>
     <textAnnotation id="TextAnnotation_1">
       <text>changeTriggered</text>
     </textAnnotation>
@@ -181,14 +184,14 @@
     <startEvent id="PO_p3975">
       <outgoing>PO_p3976</outgoing>
     </startEvent>
-    <task id="PO_p3982" name="Change abbrechen">
+    <userTask id="PO_p3982" name="Change abbrechen">
       <incoming>PO_p3981</incoming>
       <outgoing>PO_p3997</outgoing>
-    </task>
-    <task id="PO_p3977" name="Change beauftragen">
+    </userTask>
+    <userTask id="PO_p3977" camunda:candidateGroups="customer" name="Change beauftragen">
       <incoming>PO_p3976</incoming>
       <outgoing>PO_p3979</outgoing>
-    </task>
+    </userTask>
     <parallelGateway id="PO_p3980">
       <incoming>PO_p3979</incoming>
       <outgoing>PO_p3984</outgoing>
@@ -511,6 +514,13 @@
       <bpmndi:BPMNEdge id="BPMNEdge_Association_5" bpmnElement="Association_5" sourceElement="_BPMNShape_TextAnnotation_17" targetElement="EreignisPO_p4002">
         <di:waypoint xsi:type="dc:Point" x="1004.0" y="868.0"/>
         <di:waypoint xsi:type="dc:Point" x="1171.0" y="887.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_13" bpmnElement="SequenceFlow_13" sourceElement="AktivitätPO_p3957" targetElement="_BPMNShape_SubProcess_5">
+        <di:waypoint xsi:type="dc:Point" x="226.0" y="484.0"/>
+        <di:waypoint xsi:type="dc:Point" x="524.0" y="240.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="6.0" width="6.0" x="498.0" y="258.0"/>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
