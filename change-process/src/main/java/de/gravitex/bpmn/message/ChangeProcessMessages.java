@@ -4,7 +4,11 @@ public class ChangeProcessMessages {
 
 	public static final String MESSAGE_TRIGGER_CHANGE = "triggerChange";
 	
-	public static final String MESSAGE_CANCEL_CHANGE_BCC = "changeCancelledBCC";
+	public static final String MESSAGE_CHANGE_CANCELLED_CUSTOMER = "changeCancelledCustomer";
 	
-	public static final String MESSAGE_CANCEL_CHANGE_CUSTOMER = "changeCancelledCustomer";
+	public static final String MESSAGE_CHANGE_FAILED = "changeFailed";
+	
+	public static final String MESSAGE_CHANGE_CANCELLED_CUSTOMER_CONFIRM = "changeCancelledCustomerConfirm";
+	
+	public static final String MESSAGE_CHANGE_DONE = "changeDone";
 }
